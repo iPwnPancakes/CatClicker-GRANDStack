@@ -19,8 +19,8 @@ input NewCatInfo {
 }
 
 type Query {
-    getParents(parentID: String!): [Cat] @cypher(
-        statement: "MATCH (n:Cat { id: $parentID })<-[:PARENT_TO]-(parent:Cat) RETURN parent"
+    getParents(childID: String!): [Cat] @cypher(
+        statement: "MATCH (n:Cat { id: $childID })<-[:PARENT_TO]-(parent:Cat) RETURN parent"
     )
     getWeather: JSON
 }
