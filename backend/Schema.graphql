@@ -1,0 +1,30 @@
+scalar JSON
+
+enum Breed {
+    TABBY
+    CALICO
+}
+
+type Cat {
+    id: ID
+    name: String
+    breed: Breed
+    clickCount: Int
+    imgUrl: String
+}
+
+input NewCatInfo {
+    name: String!
+    imgUrl: String
+}
+
+type Query {
+    getParents(parentID: String!): [Cat] @cypher(
+        statement: "MATCH (n:Cat { id: $parentID })<-[:PARENT_TO]-(parent:Cat) RETURN parent"
+    )
+    getWeather: JSON
+}
+
+type Mutation {
+    breedCats(cat1ID: Int!, cat2ID: Int!, newCat: NewCatInfo): Cat
+}
