@@ -1,10 +1,11 @@
-import React from 'react';
-import { Box } from 'grommet';
+import React, { useState } from 'react';
+import { Box, Layer } from 'grommet';
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import CatCardList from "../../components/Cat/CatCardList";
+import MakeNewCatModal from "../../components/Cat/MakeNewCatModal";
 
 const ALL_CATS = gql`
     {
@@ -18,6 +19,7 @@ const ALL_CATS = gql`
 `;
 
 const Dashboard = (props) => {
+    const [modalOpen, setModalOpen] = useState(false);
     const AllCatsQuery = useQuery(ALL_CATS);
 
     if (AllCatsQuery.error) {
@@ -30,7 +32,15 @@ const Dashboard = (props) => {
 
     return (
         <Box>
-            <CatCardList/>
+            { modalOpen &&
+            <Layer
+                onClickOutside={ () => setModalOpen(false) }
+                modal
+            >
+                <MakeNewCatModal AllCats={ AllCatsQuery.data.Cat }/>
+            </Layer>
+            }
+            <CatCardList openModal={ () => setModalOpen(true) }/>
         </Box>
     )
 };

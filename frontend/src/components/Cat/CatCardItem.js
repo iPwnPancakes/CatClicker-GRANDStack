@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button } from 'grommet';
+import { Box, Button, Heading } from 'grommet';
 import { Favorite } from 'grommet-icons';
 import { gql } from "apollo-boost";
 import useDebouncedMutation from "../../utils/useDebouncedMutation";
@@ -22,16 +22,16 @@ const CatCardItem = ({ Cat }) => {
 
     return (
         <Box
+            className='catListItem'
             direction='column'
             elevation='small'
-            height='small'
             pad='medium'
             border={ { color: 'brand', size: 'small' } }
             basis='small'
             margin='small'
             flex='grow'
         >
-            <h2>{ Cat.name }</h2>
+            <Heading level='3'>{ Cat.name }</Heading>
             <p>{ Cat.breed }</p>
             <p>{ localClicks }</p>
             <Button

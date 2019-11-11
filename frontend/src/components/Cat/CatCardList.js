@@ -19,7 +19,7 @@ const GET_ALL_CATS = gql`
     }
 `;
 
-const CatCardList = () => {
+const CatCardList = ({ openModal }) => {
     const AllCatsQuery = useQuery(GET_ALL_CATS);
 
     if (AllCatsQuery.error) {
@@ -31,7 +31,7 @@ const CatCardList = () => {
     return (
         <Box direction='row' wrap>
             { AllCatsQuery.data.Cat.map(Cat => <CatCard key={ Cat.id } Cat={ Cat }/>) }
-            <NewCatCard/>
+            <NewCatCard onClick={ openModal }/>
         </Box>
     );
 };
