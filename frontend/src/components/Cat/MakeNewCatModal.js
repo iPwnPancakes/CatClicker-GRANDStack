@@ -1,35 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { Grid, Box, Heading, Drop, Select, Image, Form, FormField, Button } from 'grommet';
-import { AddCircle } from "grommet-icons";
-import gql from "graphql-tag";
 import CenteredBox from "../Layout/CenteredBox";
-import { render } from "react-dom";
-import { getAllCatFaceUrls, getRandomCatFaceUrl } from "../../utils/CatImageHelper";
+import { getRandomCatFaceUrl } from "../../utils/CatImageHelper";
 import { useMutation } from "@apollo/react-hooks";
-
-const ALL_CATS = gql`
-    query {
-        Cat {
-            id
-            name
-            imgUrl
-            clickCount
-            breed
-        }
-    }
-`;
-
-const MAKE_NEW_CAT = gql`
-    mutation MakeNewCat($parent1ID: ID!, $parent2ID: ID!, $name: String!, $imgUrl: String!) {
-        breedCats(cat1ID: $parent1ID, cat2ID: $parent2ID, newCat: { name: $name, imgUrl: $imgUrl }) {
-            id
-            name
-            breed
-            clickCount
-            imgUrl
-        }
-    }
-`;
+import { ALL_CATS_QUERY, MAKE_NEW_CAT } from "../../queries/Cat/CatQueries";
 
 const MakeNewCatModal = ({ AllCats, onComplete }) => {
     const [parent1, setParent1] = useState(undefined);
@@ -202,7 +176,7 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                             },
                             update: (cacheStore, { data: { breedCats } }) => {
                                 cacheStore.writeQuery({
-                                    query: ALL_CATS,
+                                    query: ALL_CATS_QUERY,
                                     data: {
                                         Cat: [...AllCats, breedCats]
                                     }

@@ -1,27 +1,15 @@
 import React, { useState } from 'react';
 import { Box, Layer } from 'grommet';
-import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import Error from "../../components/Error/Error";
 import Loading from "../../components/Loading/Loading";
 import CatCardList from "../../components/Cat/CatCardList";
 import MakeNewCatModal from "../../components/Cat/MakeNewCatModal";
-
-const ALL_CATS = gql`
-    {
-        Cat {
-            id
-            name
-            breed
-            clickCount
-            imgUrl
-        }
-    }
-`;
+import { ALL_CATS_QUERY } from "../../queries/Cat/CatQueries";
 
 const Dashboard = (props) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const AllCatsQuery = useQuery(ALL_CATS);
+    const AllCatsQuery = useQuery(ALL_CATS_QUERY);
 
     if (AllCatsQuery.error) {
         return <Error message={ AllCatsQuery.error.message }/>

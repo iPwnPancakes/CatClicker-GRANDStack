@@ -1,26 +1,14 @@
 import React from 'react';
 import { Box } from 'grommet';
-import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import Error from "../Error/Error";
 import Loading from "../Loading/Loading";
 import CatCard from './CatCardItem';
 import NewCatCard from "./NewCatCard";
-
-const GET_ALL_CATS = gql`
-    query {
-        Cat {
-            id
-            name
-            clickCount
-            imgUrl
-            breed
-        }
-    }
-`;
+import { ALL_CATS_QUERY } from "../../queries/Cat/CatQueries";
 
 const CatCardList = ({ openModal }) => {
-    const AllCatsQuery = useQuery(GET_ALL_CATS);
+    const AllCatsQuery = useQuery(ALL_CATS_QUERY);
 
     if (AllCatsQuery.error) {
         return <Error message={ AllCatsQuery.error.message }/>
