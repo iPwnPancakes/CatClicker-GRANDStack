@@ -7,6 +7,18 @@ import { render } from "react-dom";
 import { getAllCatFaceUrls, getRandomCatFaceUrl } from "../../utils/CatImageHelper";
 import { useMutation } from "@apollo/react-hooks";
 
+const ALL_CATS = gql`
+    query {
+        Cat {
+            id
+            name
+            imgUrl
+            clickCount
+            breed
+        }
+    }
+`;
+
 const MAKE_NEW_CAT = gql`
     mutation MakeNewCat($parent1ID: ID!, $parent2ID: ID!, $name: String!, $imgUrl: String!) {
         breedCats(cat1ID: $parent1ID, cat2ID: $parent2ID, newCat: { name: $name, imgUrl: $imgUrl }) {
@@ -71,6 +83,7 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                                 placeholder='Select a cat'
                                 options={ AllCats }
                                 value={ parent1 }
+                                closeOnChange
                                 valueLabel={
                                     parent1 ? (
                                         <Box direction='row' pad='xxsmall'>
@@ -93,7 +106,11 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                                         { name }
                                     </Box>) }
                                 onChange={ ({ option }) => {
-                                    setParent1(option);
+                                    if (!parent2) {
+                                        setParent1(option);
+                                    } else if (parent2 && parent2.id !== option.id) {
+                                        setParent1(option);
+                                    }
                                 } }
                             />
                         </Drop>
@@ -132,6 +149,7 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                                 placeholder='Select a cat'
                                 options={ AllCats }
                                 value={ parent2 }
+                                closeOnChange
                                 valueLabel={
                                     parent2 ? (
                                         <Box direction='row' pad='xxsmall'>
@@ -154,7 +172,11 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                                         { name }
                                     </Box>) }
                                 onChange={ ({ option }) => {
-                                    setParent2(option);
+                                    if (!parent1) {
+                                        setParent2(option);
+                                    } else if (parent1 && parent1.id !== option.id) {
+                                        setParent2(option);
+                                    }
                                 } }
                             />
                         </Drop>
@@ -171,16 +193,23 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
                         childName: childName
                     } }
                     onSubmit={ (e) => {
-                        console.log(parent1, parent2, childName);
                         makeNewCat({
                             variables: {
                                 parent1ID: parent1.id,
                                 parent2ID: parent2.id,
                                 name: childName,
                                 imgUrl: getRandomCatFaceUrl()
+                            },
+                            update: (cacheStore, { data: { breedCats } }) => {
+                                cacheStore.writeQuery({
+                                    query: ALL_CATS,
+                                    data: {
+                                        Cat: [...AllCats, breedCats]
+                                    }
+                                })
                             }
-                        }).then(result => {
-                            onComplete(result);
+                        }).then(({ data: { breedCats } }) => {
+                            onComplete(breedCats);
                         }).catch(err => {
                             console.error(err);
                         })

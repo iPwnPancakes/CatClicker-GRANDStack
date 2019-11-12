@@ -38,10 +38,7 @@ const Dashboard = (props) => {
                 onClickOutside={ () => setModalOpen(false) }
                 modal
             >
-                <MakeNewCatModal AllCats={ AllCatsQuery.data.Cat } onComplete={ (newCat) => {
-                    console.log(newCat);
-                    setModalOpen(false);
-                } }/>
+                <MakeNewCatModal AllCats={ AllCatsQuery.data.Cat } onComplete={ (newCat) => setModalOpen(false) }/>
             </Layer>
             }
             <CatCardList openModal={ () => setModalOpen(true) }/>
