@@ -19,7 +19,7 @@ const MakeNewCatModal = ({ AllCats, onComplete }) => {
 
     return (
         <Box pad='medium' align='center' responsive>
-            <Heading level='3' margin={ { bottom: 'small' } }>Select 2 Parents</Heading>
+            <Heading level='3' margin={ { bottom: 'small' } }>Select Two Parents</Heading>
             <Grid
                 rows={ ['small'] }
                 columns={ ['small', 'xxsmall', 'small'] }
