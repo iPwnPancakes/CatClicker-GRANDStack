@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Button, Heading } from 'grommet';
+import { Box, Button, Heading, Image } from 'grommet';
 import { Favorite, Trash } from 'grommet-icons';
 import useDebouncedMutation from "../../utils/useDebouncedMutation";
 import { useMutation } from "@apollo/react-hooks";
 import { ALL_CATS_QUERY, DELETE_CAT, UPDATE_CAT_CLICK } from "../../queries/Cat/CatQueries";
 
 const CatCardItem = ({ Cat }) => {
-    const [debounceMutate] = useDebouncedMutation(UPDATE_CAT_CLICK, 5000);
+    const [debounceMutate] = useDebouncedMutation(UPDATE_CAT_CLICK, 3000);
     const [deleteCat] = useMutation(DELETE_CAT);
     const [localClicks, setLocalClicks] = useState(Cat.clickCount || 0);
 
@@ -18,6 +18,7 @@ const CatCardItem = ({ Cat }) => {
             pad='medium'
             border={ { color: 'brand', size: 'small' } }
             basis='small'
+            height='medium'
             margin='small'
             flex='grow'
         >
@@ -41,8 +42,10 @@ const CatCardItem = ({ Cat }) => {
                     }
                 }) }/>
             </Box>
-            <p>{ Cat.breed }</p>
-            <p>{ localClicks }</p>
+            <Image src={ `/assets/CatFaces/${ Cat.imgUrl }` } fit='contain' height='320px' width='320px'
+                   alignSelf='center'/>
+            <p>Breed: { Cat.breed }</p>
+            <p>Times Pet: { localClicks }</p>
             <Button
                 icon={ <Favorite color='red'/> }
                 label='Pet Cat'
