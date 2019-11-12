@@ -1,4 +1,4 @@
-const {GraphQLJSON} = require('graphql-type-json');
+const { GraphQLJSON } = require('graphql-type-json');
 const randomUUID = require('uuid/v4');
 
 /**
@@ -29,7 +29,7 @@ module.exports = (session) => ({
         }
     },
     Mutation: {
-        breedCats(ctx, {cat1ID, cat2ID, newCat}) {
+        breedCats(ctx, { cat1ID, cat2ID, newCat }) {
             return session.run('MATCH (parent1:Cat {id: {cat1ID} }),(parent2:Cat {id: {cat2ID} }) RETURN parent1,parent2', {
                 cat1ID,
                 cat2ID
@@ -40,17 +40,18 @@ module.exports = (session) => ({
 
                 return session.run(`
                     MATCH (parent1:Cat {id: {cat1ID} }),(parent2:Cat {id: {cat2ID} })
-                    CREATE (newCat:Cat {id: {randomUUID}, name: {newCatName}, clickCount: 0, breed: {randomlyChosenBreed} })
+                    CREATE (newCat:Cat {id: {randomUUID}, name: {newCatName}, clickCount: 0, breed: {randomlyChosenBreed}, imgUrl: {imgUrl} })
                     CREATE (parent1)-[:PARENT_TO]->(newCat)
                     CREATE (parent2)-[:PARENT_TO]->(newCat)
                     RETURN newCat
                 `, {
-                    cat1ID,
-                    cat2ID,
-                    randomUUID: randomUUID(),
-                    newCatName: newCat.name,
-                    randomlyChosenBreed: randomlyChosenBreed
-                })
+                        cat1ID,
+                        cat2ID,
+                        randomUUID: randomUUID(),
+                        newCatName: newCat.name,
+                        randomlyChosenBreed: randomlyChosenBreed,
+                        imgUrl: newCat.imgUrl
+                    })
                     .then(result => {
                         session.close();
 

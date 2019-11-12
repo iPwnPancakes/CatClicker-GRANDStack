@@ -26,5 +26,5 @@ type Query {
 }
 
 type Mutation {
-    breedCats(cat1ID: Int!, cat2ID: Int!, newCat: NewCatInfo): Cat
+    breedCats(cat1ID: ID!, cat2ID: ID!, newCat: NewCatInfo): Cat
 }
