@@ -22,7 +22,7 @@ const CatCardItem = ({ Cat }) => {
 
     return (
         <Box
-            className='catListItem'
+            className='hoverable'
             direction='column'
             elevation='small'
             pad='medium'

@@ -5,7 +5,7 @@ import { AddCircle } from 'grommet-icons';
 const NewCatCard = ({ onClick }) => {
     return (
         <Box
-            className='newCatCard'
+            className='hoverable'
             direction='column'
             border={ { color: 'brand', size: 'small', style: 'dashed' } }
             elevation='medium'

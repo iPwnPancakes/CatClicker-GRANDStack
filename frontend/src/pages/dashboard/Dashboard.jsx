@@ -14,6 +14,7 @@ const ALL_CATS = gql`
             name
             breed
             clickCount
+            imgUrl
         }
     }
 `;
@@ -37,7 +38,10 @@ const Dashboard = (props) => {
                 onClickOutside={ () => setModalOpen(false) }
                 modal
             >
-                <MakeNewCatModal AllCats={ AllCatsQuery.data.Cat }/>
+                <MakeNewCatModal AllCats={ AllCatsQuery.data.Cat } onComplete={ (newCat) => {
+                    console.log(newCat);
+                    setModalOpen(false);
+                } }/>
             </Layer>
             }
             <CatCardList openModal={ () => setModalOpen(true) }/>

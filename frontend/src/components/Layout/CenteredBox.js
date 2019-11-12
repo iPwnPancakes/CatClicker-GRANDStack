@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from "grommet/es6";
 
-const CenteredBox = (props) => {
+const CenteredBox = React.forwardRef((props, ref) => {
     const { children, ...otherProps } = props;
     return (
         <Box
@@ -9,11 +9,12 @@ const CenteredBox = (props) => {
             flex='grow'
             align='center'
             justify='center'
+            ref={ ref }
             { ...otherProps }
         >
             { children }
         </Box>
     )
-};
+});
 
 export default CenteredBox;
