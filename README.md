@@ -13,6 +13,12 @@ with the GRAND stack:
 In order to run the project, make sure each project has correct credentials 
 in the `.env` file at the root of both `/frontend` and `/backend` folders.
 
+Backend requires valid Neo4j bolt url and credentials.
+**Note: Backend runs in CORS mode if `ENVIRONMENT` field is not set to `"PRODUCTION"`
+in `.env`**
+
+Frontend requires valid GraphQL endpoint.
+
 Both folders have their own `package.json` files and `npm start` scripts. 
 Be sure to run `npm install` in both folders before doing so. 
 
