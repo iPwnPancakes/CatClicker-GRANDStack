@@ -1,0 +1,13 @@
+name: Test/Deploy App
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v1
+      - uses: amondnet/now-deployment@v1
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          now-args: '--prod'
